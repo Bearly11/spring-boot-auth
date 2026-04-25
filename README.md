@@ -1,6 +1,6 @@
 # Spring Boot Security & Authentication Service 🔐
 
-![Java](https://img.shields.io/badge/Java-17-orange)
+![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring--Boot-3.x-green)
 ![Spring Security](https://img.shields.io/badge/Spring--Security-6.x-red)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
@@ -17,7 +17,7 @@
 
 ## 🛠 បច្ចេកវិទ្យា (Tech Stack)
 * **Framework:** Spring Boot (Data JPA, Security, Web)
-* **Language:** Java 17
+* **Language:** Java 21
 * **Database:** PostgreSQL
 * **Security Tool:** Spring Security, BCrypt Password Encoder
 * **Build Tool:** Maven
