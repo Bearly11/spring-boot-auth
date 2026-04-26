@@ -82,7 +82,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-
+            throw new UnavailableException("Invalid token");
         }
 
         // Continue filter chain
