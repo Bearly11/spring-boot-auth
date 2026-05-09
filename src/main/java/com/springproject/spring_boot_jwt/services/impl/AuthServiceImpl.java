@@ -59,13 +59,15 @@ public class AuthServiceImpl implements AuthService {
             );
 
             var user =(UserDetails) authentication.getPrincipal();
+            _tokenService.revokeAllUser(user);
 
 
             String token = _jwtService.generateAccessToken(user);
             String refreshToken = _jwtService.generateRefreshToken(user);
 
-            _tokenService.revokeAllUser(user);
+
             _tokenService.saveUserToken(user,token);
+            _tokenService.saveUserToken(user,refreshToken);
 
             return new AuthResponseDto(
                     token,
@@ -90,10 +92,12 @@ public class AuthServiceImpl implements AuthService {
             throw new UnauthorizedException("Invalid refresh token");
         }
         String newAccessToken = _jwtService.generateAccessToken(user);
+        String newRefreshToken = _jwtService.generateRefreshToken(user);
         _tokenService.saveUserToken(user,newAccessToken);
+        _tokenService.saveUserToken(user,newRefreshToken);
         return new AuthResponseDto(
                 newAccessToken,
-                refreshToken,
+                newRefreshToken,
                 user.getUsername(),
                 user.getAuthorities().toString()
         );

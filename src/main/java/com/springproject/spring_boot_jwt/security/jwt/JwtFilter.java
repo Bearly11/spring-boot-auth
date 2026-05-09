@@ -1,11 +1,9 @@
 package com.springproject.spring_boot_jwt.security.jwt;
 
-import com.springproject.spring_boot_jwt.exceptions.AuthException;
-import com.springproject.spring_boot_jwt.exceptions.UnauthorizedException;
+
 import com.springproject.spring_boot_jwt.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.UnavailableException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -81,11 +79,12 @@ public class JwtFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
+            filterChain.doFilter(request, response);
         } catch (Exception e) {
-            throw new UnavailableException("Invalid token");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\":\"Invalid or expired token\"}");
         }
 
-        // Continue filter chain
-        filterChain.doFilter(request, response);
     }
 }

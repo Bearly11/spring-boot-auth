@@ -1,5 +1,6 @@
 package com.springproject.spring_boot_jwt.services.impl;
 
+import com.springproject.spring_boot_jwt.exceptions.UnauthorizedException;
 import com.springproject.spring_boot_jwt.models.Token;
 import com.springproject.spring_boot_jwt.models.User;
 import com.springproject.spring_boot_jwt.repositories.TokenRepository;
@@ -7,6 +8,7 @@ import com.springproject.spring_boot_jwt.repositories.UserRepository;
 import com.springproject.spring_boot_jwt.services.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -57,7 +59,8 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public void revokeToken(String token) {
         var storedToken = _tokenRepository.findByToken(token)
-                .orElseThrow();
+                .orElseThrow(()->
+                        new UnauthorizedException("Token not found"));
         storedToken.setExpired(true);
         storedToken.setRevoked(true);
         _tokenRepository.save(storedToken);
